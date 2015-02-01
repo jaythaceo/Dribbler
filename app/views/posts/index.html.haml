@@ -1,11 +1,33 @@
-- @posts.each do |post|
-	= link_to (image_tag post.image.url)
-	%h2= link_to post.title, post
-	%p
-		= post.comments.count
-		Comments
-	%p
-		= post.get_likes.size
-		Likes
+- if user_signed_in?
+	%p#intro
+		Hello
+		= current_user.name
+		%br/
+		%span
+			Trizz away and see what's Trizzing others.
+- else
+	%p#intro
+		What's your Trizz?
+		%br/
+		%span
+			Trizz away and see what's Trizzing others.
 
-= link_to "Add new Inspiration", new_post_path
+#posts
+	- @posts.each do |post|
+		.post
+			.post_image
+				= link_to (image_tag post.image.url)
+			.post_content
+				.title
+				%h2= link_to post.title, post
+				.data.clearfix
+					%p.username
+						Shared by
+						= post.user.name
+					%p.buttons
+						%span
+							%i.fa.fa-comments-o
+							= post.comments.count
+						%span
+							%i.fa.fa-thumbs-o-up
+							= post.get_likes.size
